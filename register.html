@@ -1,0 +1,143 @@
+<!doctype html>
+<html data-bs-theme="dark" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register — Online Library</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container navbar">
+        <a class="brand" href="index.html" aria-label="Home">
+          <span class="brand-logo" aria-hidden="true"></span>
+          <span>Online Library</span>
+        </a>
+      </div>
+    </header>
+
+    <main id="main" class="container">
+      <h1>Create your account</h1>
+      <form id="regForm" class="row g-3 needs-validation" novalidate>
+        <div class="col-md-6">
+          <label for="firstName" class="form-label">First name</label>
+          <input type="text" class="form-control" id="firstName" name="firstName" required minlength="2" maxlength="40" placeholder="Your first name">
+          <div class="invalid-feedback">Please enter your first name (2–40 chars).</div>
+        </div>
+        <div class="col-md-6">
+          <label for="lastName" class="form-label">Last name</label>
+          <input type="text" class="form-control" id="lastName" name="lastName" minlength="2" maxlength="40" placeholder="Your last name">
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" required placeholder="you@example.com">
+          <div class="invalid-feedback">Please provide a valid email.</div>
+        </div>
+        <div class="col-md-6">
+          <label for="country" class="form-label">Country</label>
+          <select id="country" name="country" class="form-select" required>
+            <option value="" selected disabled>Choose…</option>
+            <option>Kazakhstan</option>
+            <option>USA</option>
+            <option>UK</option>
+            <option>Germany</option>
+          </select>
+          <div class="invalid-feedback">Please select your country.</div>
+        </div>
+        <div class="col-md-6">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required minlength="6" placeholder="At least 6 characters">
+          <div class="invalid-feedback">Password must be at least 6 characters.</div>
+        </div>
+        <div class="col-md-6">
+          <label for="confirmPassword" class="form-label">Confirm password</label>
+          <input type="password" class="form-control" id="confirmPassword" required>
+          <div class="invalid-feedback">Passwords must match.</div>
+        </div>
+        <div class="col-12">
+          <label class="form-label d-block">Gender</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+            <label class="form-check-label" for="male">Male</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+            <label class="form-check-label" for="female">Female</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="other" value="other">
+            <label class="form-check-label" for="other">Other</label>
+          </div>
+          <div class="invalid-feedback d-block">Please select gender.</div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label d-block">Hobbies</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="reading">
+            <label class="form-check-label" for="reading">Reading</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="coding">
+            <label class="form-check-label" for="coding">Coding</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="music">
+            <label class="form-check-label" for="music">Music</label>
+          </div>
+        </div>
+        
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit">Create account</button>
+          <button class="btn btn-outline-secondary" type="reset">Reset</button>
+        </div>
+      </form>
+        
+    </main>
+
+<script>
+    (function () {
+      const form = document.getElementById('regForm');
+      form.addEventListener('submit', function (e) {
+        const pass = form.password.value;
+        const confirm = document.getElementById('confirmPassword').value;
+        if (pass !== confirm) {
+          e.preventDefault();
+          form.classList.add('was-validated');
+          document.getElementById('confirmPassword').setCustomValidity('Mismatch');
+          document.getElementById('confirmPassword').reportValidity();
+          setTimeout(() => document.getElementById('confirmPassword').setCustomValidity(''), 1000);
+          return;
+        }
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          e.stopPropagation();
+          form.classList.add('was-validated');
+          return;
+        }
+        e.preventDefault();
+        const hobbies = Array.from(document.querySelectorAll('#regForm input[type=checkbox]:checked')).map(c => c.id);
+        const genderEl = document.querySelector('#regForm input[name=gender]:checked');
+        const gender = genderEl ? genderEl.value : '';
+        const user = {
+          firstName: form.firstName.value.trim(),
+          lastName: form.lastName.value.trim(),
+          email: form.email.value.trim(),
+          country: form.country.value,
+          gender: gender,
+          hobbies: hobbies
+        };
+        localStorage.setItem('user', JSON.stringify(user));
+        window.location.href = 'index.html';
+      }, false);
+    })();
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+          crossorigin="anonymous"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
